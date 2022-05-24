@@ -3,7 +3,6 @@
 #include <string.h>
 #include <time.h>
 #include <ctype.h>
-#include <conio.h>
 
 #define COMPANY_NAME "imv"
 
@@ -13,6 +12,7 @@
 
 #ifdef linux
 #define CLEAR system("clear")
+#include <conio.h>
 #endif
 //prototypes
 int welcome(void);
