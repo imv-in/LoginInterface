@@ -20,12 +20,24 @@
 //prototypes
 int welcome(void);
 char losi(void);
+int login(void);
+int signup(void);
 
 //main
 int main(void){
 
     welcome();
-
+    menu: ;
+    //declare a character variable called choice
+    char choice = losi();
+    
+    if (choice == 'l') login();
+    else if (choice == 's') signup();
+    else if (choice == 'q') exit(0);
+    else
+        printf("Invalid choice");
+        sleep(3);
+        goto menu;
     return 0;
 }
 
@@ -42,5 +54,36 @@ int welcome(void){
 char losi(void){
 
     CLEAR;
-    return '\0';
+    
+    printf("(L)ogin\n(S)ignup\n(Q)uit\n");
+    char choicel = getch();
+    choicel = tolower(choicel);
+    
+    return choicel;
+}
+
+int login(void){
+
+    CLEAR;
+    printf("Login\n");
+    printf("Username: ");
+    char username[20];
+    scanf("%s", username);
+    printf("Password: ");
+    char password[20];
+    scanf("%s", password);
+    return 0;
+}
+
+int signup(void){
+
+    CLEAR;
+    printf("Signup\n");
+    printf("Username: ");
+    char username[20];
+    scanf("%s", username);
+    printf("Password: ");
+    char password[20];
+    scanf("%s", password);
+    return 0;
 }
