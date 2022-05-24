@@ -8,11 +8,14 @@
 
 #ifdef _WIN32
 #define CLEAR system("cls")
+#define getch _getch
+#include <conio.h>
 #endif
 
 #ifdef linux
 #define CLEAR system("clear")
-#include <conio.h>
+#include <termios.h>
+#define getch getchar
 #endif
 //prototypes
 int welcome(void);
