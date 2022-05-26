@@ -27,10 +27,12 @@ int signup(void);
 int main(void){
 
     welcome();
-    menu: ;
+
     //declare a character variable called choice
-    char choice = losi();
+    char choice;
     
+    menu: 
+    choice = losi();
     if (choice == 'l') login();
     else if (choice == 's') signup();
     else if (choice == 'q') exit(0);
