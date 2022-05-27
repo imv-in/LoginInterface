@@ -34,6 +34,8 @@ char losi(void);
 int login(user *templ);
 int signup(user *temps);
 int credInput(user *tempc);
+int loginBack(user *templ);
+int signupBack(user *temps);
 
 //main
 int main(void){
@@ -51,9 +53,6 @@ int main(void){
         sleep(3);
         goto menu;
     }
-    //test
-    printf("User: %s\n", temp.username);
-    printf("Password: %s\n", temp.password);
     return 0;
 }
 
@@ -78,6 +77,7 @@ int login(user *templ){
     CLEAR;
     printf("Login\n");
     credInput(templ);
+    loginBack(templ);
     return 0;
 }
 
@@ -86,13 +86,60 @@ int signup(user *temps){
     CLEAR;
     printf("Signup\n");
     credInput(temps);
+    signupBack(temps);
     return 0;
 }
 
+//credInput
 int credInput(user *tempc){
     printf("Username: ");
     scanf("%s", &tempc->username);
     printf("Password: ");
     scanf("%s", &tempc->password);
+    return 0;
+}
+
+int loginBack(user *templ){
+
+    //open database
+    FILE *fp;
+    fp = fopen(DATABASE_NAME, "r");
+    
+    //check if file exists
+    if (fp == NULL){
+        printf("Error opening file");
+        exit(1);
+    }
+
+    //create a for loop for iterating over the file
+    for (int i = 0; i < 3; i++){
+        //read the file
+        fscanf(fp, "%s %s", &templ->username, &templ->password);
+        //check if the username and password match
+        if (strcmp(templ->username, templ->password) == 0){
+            printf("Login successful\n");
+            sleep(3);
+            fclose(fp);
+            return 0;
+        }
+    }
+}
+
+int signupBack(user *temps){
+    //open database
+    FILE *fp;
+    fp = fopen(DATABASE_NAME, "a");
+    
+    //check if file exists
+    if (fp == NULL){
+        printf("Error opening file");
+        exit(1);
+    }
+
+    //write to the file
+    fprintf(fp, "%s %s\n", temps->username, temps->password);
+    printf("Signup successful\n");
+    sleep(3);
+    fclose(fp);
     return 0;
 }
