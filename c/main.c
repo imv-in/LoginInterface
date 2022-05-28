@@ -77,7 +77,8 @@ int login(user *templ){
     CLEAR;
     printf("Login\n");
     credInput(templ);
-    loginBack(templ);
+    int auth = loginBack(templ);
+    if (auth == 1) login(templ);
     return 0;
 }
 
@@ -111,16 +112,30 @@ int loginBack(user *templ){
         exit(1);
     }
 
-    //create a for loop for iterating over the file
-    for (int i = 0; i < 3; i++){
-        //read the file
-        fscanf(fp, "%s %s", &templ->username, &templ->password);
-        //check if the username and password match
-        if (strcmp(templ->username, templ->password) == 0){
-            printf("Login successful\n");
-            sleep(3);
+    //variables
+    char entry[21];
+    char *token;
+
+    //check if any entry matches the username and password
+    while (fgets(entry, 21, fp) != NULL){
+        token = strtok(entry, ",");
+        if (strcmp(token, templ->username) == 0){
+            token = strtok(NULL, ",");
+            if (strcmp(token, templ->password) == 0){
+                printf("Login successful\n");
+                fclose(fp);
+                return 0;
+            }
+            else{
+                printf("Incorrect password\n");
+                fclose(fp);
+                return 1;
+            }
+        }
+        else{
+            printf("Incorrect username\n");
             fclose(fp);
-            return 0;
+            return 1;
         }
     }
 }
