@@ -43,6 +43,7 @@ int main(void){
     //declare a character variable called choice
     char choice;
     user temp;
+    memset(&temp, 0, sizeof(temp));
     menu: 
     choice = losi();
     if (choice == 'l') login(&temp);
@@ -67,7 +68,8 @@ int welcome(void){
 char losi(void){
     CLEAR;
     printf("(L)ogin\n(S)ignup\n(Q)uit\n");
-    char choicel = getch();
+    char choicel = 'a';
+    choicel = getch();
     choicel = tolower(choicel);
     return choicel;
 }
@@ -77,7 +79,8 @@ int login(user *templ){
     CLEAR;
     printf("Login\n");
     credInput(templ);
-    int auth = loginBack(templ);
+    int auth = 0;
+    auth = loginBack(templ);
     if (auth == 1){
         sleep(2);
         login(templ);
@@ -90,7 +93,8 @@ int signup(user *temps){
     CLEAR;
     printf("Signup\n");
     credInput(temps);
-    int auth = signupBack(temps);
+    int auth = 0;
+    auth = signupBack(temps);
     if (auth == 1){ 
         sleep(2); 
         signup(temps);
@@ -121,7 +125,9 @@ int loginBack(user *templ){
 
     //variables
     char entry[21];
+    memset(entry, '\0', sizeof(entry));
     char *token;
+    memset(token, '\0', sizeof(token));
 
     //check if any entry matches the username and password
     while (fgets(entry, 21, fp) != NULL){
@@ -160,7 +166,10 @@ int signupBack(user *temps){
 
     //check if the username exist
     char entry[21];
+    memset(entry, '\0', sizeof(entry));
     char *token;
+    memset(token, '\0', sizeof(token));
+
     while (fgets(entry, 21, fp) != NULL){
         token = strtok(entry, ",");
         if (strcmp(token, temps->username) == 0){
