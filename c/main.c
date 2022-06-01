@@ -78,7 +78,10 @@ int login(user *templ){
     printf("Login\n");
     credInput(templ);
     int auth = loginBack(templ);
-    if (auth == 1) login(templ);
+    if (auth == 1){
+        sleep(2);
+        login(templ);
+    }
     return 0;
 }
 
@@ -87,7 +90,11 @@ int signup(user *temps){
     CLEAR;
     printf("Signup\n");
     credInput(temps);
-    signupBack(temps);
+    int auth = signupBack(temps);
+    if (auth == 1){ 
+        sleep(2); 
+        signup(temps);
+    }
     return 0;
 }
 
@@ -151,10 +158,21 @@ int signupBack(user *temps){
         exit(1);
     }
 
-    //write to the file
-    fprintf(fp, "%s %s\n", temps->username, temps->password);
+    //check if the username exist
+    char entry[21];
+    char *token;
+    while (fgets(entry, 21, fp) != NULL){
+        token = strtok(entry, ",");
+        if (strcmp(token, temps->username) == 0){
+            printf("Username already exists\n");
+            fclose(fp);
+            return 1;
+        }
+    }
+
+    //write to file
+    fprintf(fp, "%s,%s\n", temps->username, temps->password);
     printf("Signup successful\n");
-    sleep(3);
     fclose(fp);
     return 0;
 }
